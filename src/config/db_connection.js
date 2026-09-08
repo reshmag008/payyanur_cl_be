@@ -7,7 +7,7 @@ class ConfigConnection {
     // host: 'player-auction.cxue6q6m2f3h.us-east-1.rds.amazonaws.com',
 
   connectDB () {
-    this.sequelize = new Sequelize('kizhakenni', 'avnadmin', 'AVNS_zEZTWlYzZAqKd5A_H4Z', {
+    this.sequelize = new Sequelize('kcc_veterans', 'avnadmin', 'AVNS_zEZTWlYzZAqKd5A_H4Z', {
       host: 'mysql-n05-sports-n05-sports.d.aivencloud.com',
       port : 24760,
       dialect: 'mysql',
