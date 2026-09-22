@@ -3,6 +3,8 @@ const { Op,Sequelize } = require("sequelize");
 const AWS = require('aws-sdk');
 const playerService = require('./player')
 const s3Service = require('./s3Service');
+const {roomId} = require('../config/constants');
+
 
 
 
@@ -127,6 +129,9 @@ async function getBidHistory(playerId) {
 async function addAuctionState(auctionState){
     return new Promise(async (resolve, reject) => {
         try {
+            const AUCTION_DURATION = 25 * 1000;
+            const endsAt = new Date(Date.now() + AUCTION_DURATION);
+            auctionState.ends_at = endsAt;
             let addedBid = await models.auction_state.create(auctionState);
             global.io.to(roomId).emit('time_left', 25)
             resolve(addedBid)
@@ -156,7 +161,7 @@ async function updateAuctionState(params) {
             global.io.to(roomId).emit('time_left', 25)
             const AUCTION_DURATION = 25 * 1000;
             const endsAt = new Date(Date.now() + AUCTION_DURATION);
-            let auctionState = await models.auction_state.findOne({where:{current_player_id : params.playerId}});
+            let auctionState = await models.auction_state.findOne({where:{current_player_id : params.current_player_id}});
             params.ends_at = endsAt,
             auctionState.set(params);
             await auctionState.save();
