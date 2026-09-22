@@ -100,7 +100,6 @@ async function getTeamAuthenticated(code) {
 async function addBidHistory(bid){
     return new Promise(async (resolve, reject) => {
         try {
-            bid.endsAt = new Date(Date.now() + 25000);
             let addedBid = await models.bid_history.create(bid);
             resolve(addedBid)
         }catch(e){
@@ -125,6 +124,50 @@ async function getBidHistory(playerId) {
 
 }
 
+async function addAuctionState(auctionState){
+    return new Promise(async (resolve, reject) => {
+        try {
+            let addedBid = await models.auction_state.create(auctionState);
+            global.io.to(roomId).emit('time_left', 25)
+            resolve(addedBid)
+        }catch(e){
+            console.log("error occured in addBidHistory= ", e);
+            reject(e);
+        }
+    })
+}
+
+async function getAuctionState(playerId) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let teams = await models.auction_state.findAll({where : {current_player_id : playerId}});
+            resolve(teams);
+        }catch(e){
+            console.log("error occured in getAuctionState= ", e);
+            reject(e);
+        }
+    })
+}
+
+
+async function updateAuctionState(params) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            global.io.to(roomId).emit('time_left', 25)
+            const AUCTION_DURATION = 25 * 1000;
+            const endsAt = new Date(Date.now() + AUCTION_DURATION);
+            let auctionState = await models.auction_state.findOne({where:{current_player_id : params.playerId}});
+            params.ends_at = endsAt,
+            auctionState.set(params);
+            await auctionState.save();
+            resolve(auctionState)
+        }catch(e){
+            console.log("error occured in updateAuctionState= ", e);
+            reject(e);
+        }
+    })
+}
+
 
 
 module.exports = {
@@ -134,5 +177,8 @@ module.exports = {
     updateTeam :  updateTeam,
     getTeamAuthenticated:getTeamAuthenticated,
     addBidHistory:addBidHistory,
-    getBidHistory:getBidHistory
+    getBidHistory:getBidHistory,
+    addAuctionState:addAuctionState,
+    getAuctionState:getAuctionState,
+    updateAuctionState:updateAuctionState
 }

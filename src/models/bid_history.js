@@ -11,11 +11,7 @@ module.exports = (sequelize, type) => {
         player_id: { type: type.INTEGER, allowNull: false },
         team_id: { type: type.INTEGER, allowNull: false },
         team_name: { type: type.STRING, allowNull: false },
-        bid_amount: { type: type.INTEGER, allowNull: true },
-        endsAt: {
-          type: DataTypes.DATE,
-          allowNull: true
-        }
+        bid_amount: { type: type.INTEGER, allowNull: true }
       },
       {
         timestamps: true,

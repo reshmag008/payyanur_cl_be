@@ -276,6 +276,31 @@ router.get('/update_unsold', (req, res) => {
 });
 
 
+router.post('/add_auction_state', bodyParser.json(), (req, res) => {
+    console.log(req.body)
+    teamService.addAuctionState(req.body)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+});
+
+
+router.get('/get_auction_state/:playerId', (req, res) => {
+    teamService.getAuctionState(req.params.playerId)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+});
+
+
+router.put('/update_auction_state', bodyParser.json(), (req, res) => {
+    console.log(req.body)
+    teamService.updateAuctionState(req.body)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+});
+
+
+
+
 // router.post('/google-upload-file',imageUpload.single('image'),(req, res) => {
 //     googleApisService.uploadFile(req.body,req.file)
 //     .then((result) => res.status(200).json(result))
