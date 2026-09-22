@@ -100,6 +100,7 @@ async function getTeamAuthenticated(code) {
 async function addBidHistory(bid){
     return new Promise(async (resolve, reject) => {
         try {
+            bid.endsAt = new Date(Date.now() + 25000);
             let addedBid = await models.bid_history.create(bid);
             resolve(addedBid)
         }catch(e){
