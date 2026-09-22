@@ -140,6 +140,14 @@ router.get('/non_bid_players/:id', (req, res) => {
         .catch((err) => res.status(500).json(err))
 });
 
+router.get('/autheticateTeam/:code', (req, res) => {
+    teamService.getTeamAuthenticated(req.params.code)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+});
+
+
+
 router.get('/sold_players', (req, res) => {
     playerService.getSoldPlayers(req.params.id)
         .then((result) => res.status(200).json(result))
@@ -181,12 +189,39 @@ router.post('/team_call', bodyParser.json(), (req, res) => {
         .catch((err) => res.status(500).json(err))
 });
 
+router.post('/add_bid_history', bodyParser.json(), (req, res) => {
+    console.log(req.body)
+    teamService.addBidHistory(req.body)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+});
+
+router.get('/get_bid_history/:playerId', (req, res) => {
+    teamService.getBidHistory(req.params.playerId)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+});
+
+router.get('/get_current_player', (req, res) => {
+    playerService.getCurrentPlayer()
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+});
+
 router.post('/team_complete', bodyParser.json(), (req, res) => {
     console.log(req.body)
     playerService.teamComplete(req.body)
         .then((result) => res.status(200).json(result))
         .catch((err) => res.status(500).json(err))
 });
+
+router.post('/emit_current_bid', bodyParser.json(), (req, res) => {
+    console.log(req.body)
+    playerService.emitCurrentBid(req.body)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+});
+
 
 router.post('/close_popup', bodyParser.json(), (req, res) => {
     playerService.closePopup()
