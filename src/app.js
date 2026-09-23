@@ -67,6 +67,7 @@ const io = new Server(server, {
 });
 
 global.io = io;
+const roomId = 'auctionLive';
 
 io.on("connection", (socket) => {
   console.log("Connected:", socket.id);
@@ -74,13 +75,15 @@ io.on("connection", (socket) => {
   socket.on("join-room", async (roomId) => {
     socket.join(roomId);
 
-    // const selectedPlayer = await models.players.findOne({
-    //   where: { profile_link: "1" },
-    //   order: [["updatedAt", "DESC"]],
-    // });
-
-    // io.to(roomId).emit("current_player", JSON.stringify(selectedPlayer));
   });
+
+  socket.onAny((event, data) => {
+
+    console.log("Current socket event:", event, data);
+
+    global.io.to(roomId).emit(event, data);
+  });
+
 });
 
 
