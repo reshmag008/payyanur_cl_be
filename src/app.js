@@ -17,7 +17,7 @@ const ALLOWED_ORIGINS =
   "*";
 
 const allowedOrigins = [
-  "http://localhost:8080","http://localhost:8081","https://kizhakenni-pl-fe-204746249106.europe-west1.run.app/"
+  "http://localhost:8080","http://localhost:8081","https://payyanur-cl-fe-204746249106.europe-west1.run.app"
 ];
 
 app.use(
