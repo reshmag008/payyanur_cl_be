@@ -73,6 +73,20 @@ async function emitCurrentBid(teamData){
 }
 
 
+async function emitCallStage(state){
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log("state== ", state)
+            global.io.to(roomId).emit('call_stage', JSON.stringify(state))
+            resolve('success')
+        }catch(e){
+            console.log("error occured in displayPlayer= ", e);
+            reject(e);
+        }
+    })
+}
+
+
 
 async function closePopup(){
     return new Promise(async (resolve, reject) => {
@@ -362,5 +376,6 @@ module.exports = {
     displayTeamScores :displayTeamScores,
     updatePaymentScreenshot : updatePaymentScreenshot,
     approvePlayers:approvePlayers,
-    emitCurrentBid:emitCurrentBid
+    emitCurrentBid:emitCurrentBid,
+    emitCallStage:emitCallStage
 };

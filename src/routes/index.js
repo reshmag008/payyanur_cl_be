@@ -223,6 +223,14 @@ router.post('/emit_current_bid', bodyParser.json(), (req, res) => {
 });
 
 
+router.post('/emit_call_stage', bodyParser.json(), (req, res) => {
+    console.log(req.body)
+    playerService.emitCallStage(req.body)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+});
+
+
 router.post('/close_popup', bodyParser.json(), (req, res) => {
     playerService.closePopup()
         .then((result) => res.status(200).json(result))
